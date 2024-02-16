@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Meal\Infrastructure\Doctrine\Entity;
 
-use App\Meal\Infrastructure\ApiPlatform\Input\MealInput;
-use App\Repository\MealRepository;
+use App\Meal\Infrastructure\Doctrine\Repository\MealRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 

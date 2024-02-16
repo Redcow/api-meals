@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repository;
+namespace App\Meal\Infrastructure\Doctrine\Repository;
 
-use App\Entity\Meal;
 use App\Meal\Domain\Entity\Meal as DomainMeal;
 use App\Meal\Domain\Repository\MealRepositoryInterface;
+use App\Meal\Infrastructure\Doctrine\Entity\Meal;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

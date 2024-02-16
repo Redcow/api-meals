@@ -24,4 +24,4 @@ services:
     # please note that last definitions always *replace* previous ones
 
     App\Meal\Domain\Repository\MealRepositoryInterface:
-        factory: '@App\Meal\Infrastructure\Symfony\Repository\MealRepositoryFactory'
+        factory: '@App\Meal\Infrastructure\Doctrine\Repository\MealRepositoryFactory'
