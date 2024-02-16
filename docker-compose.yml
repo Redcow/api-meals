@@ -1,0 +1,57 @@
+version: '3.1'
+
+services:
+
+  php:
+    build: docker/php
+    container_name: app_php
+    environment:
+      - FRANKENPHP_CONFIG=worker ./public/index.php
+      - APP_RUNTIME=Runtime\FrankenPhpSymfony\Runtime
+    ports:
+      - "6111:80"
+      - "6112:443"
+    volumes:
+      - ./app:/app
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    links:
+      - database
+      - redis
+      - rabbitmq
+
+  database:
+    image: mysql:8
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=local
+      - MYSQL_USER=client
+      - MYSQL_PASSWORD=123456
+    command: --sql_mode=""
+    ports:
+      - "3313:3306"
+      #volumes:
+    #  - ./sql/init:/docker-entrypoint-initdb.d
+
+  pma:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      DEBUG: 1
+      PMA_HOSTS: database
+      UPLOAD_LIMIT: 300M
+    ports:
+      - "6166:80"
+    depends_on:
+      - database
+    links:
+      - database
+
+  redis:
+    image: "redis:alpine"
+    ports: [6379]
+
+  rabbitmq:
+    image: rabbitmq:3.7-management
+
+volumes:
+  db-data:
