@@ -5,6 +5,7 @@ namespace App\Meal\Infrastructure\Doctrine\Entity;
 use App\Meal\Infrastructure\Doctrine\Repository\MealRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use \App\Common\Infrastructure\Doctrine\Entity\User;
 
 #[ORM\Entity(repositoryClass: MealRepository::class)]
 class Meal
@@ -28,6 +29,10 @@ class Meal
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'meals')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $cook = null;
 
     public function __construct() {
         $this->createdAt = new \DateTimeImmutable();
@@ -87,5 +92,17 @@ class Meal
         $self->price = $meal->price;
 
         return $self;
+    }
+
+    public function getCook(): ?User
+    {
+        return $this->cook;
+    }
+
+    public function setCook(?User $cook): static
+    {
+        $this->cook = $cook;
+
+        return $this;
     }
 }

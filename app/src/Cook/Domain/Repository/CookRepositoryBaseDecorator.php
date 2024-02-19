@@ -18,4 +18,9 @@ readonly class CookRepositoryBaseDecorator implements CookRepositoryInterface
     {
         return $this->wrappee->persist($user);
     }
+
+    public function getOne(int $id): Cook
+    {
+        return $this->wrappee->getOne($id);
+    }
 }

@@ -3,10 +3,12 @@
 namespace App\Cook\Infrastructure\ApiPlatform\Resource;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use App\Common\Infrastructure\ApiPlatform\Input\UserInput;
 use App\Cook\Domain\Entity\Cook;
 use App\Cook\Infrastructure\ApiPlatform\Processor\CreateCookProcessor;
+use App\Cook\Infrastructure\ApiPlatform\Provider\CookItemProvider;
 
 #[ApiResource(
     operations: [
@@ -14,6 +16,10 @@ use App\Cook\Infrastructure\ApiPlatform\Processor\CreateCookProcessor;
             uriTemplate: '/cooks/',
             input: UserInput::class,
             processor: CreateCookProcessor::class
+        ),
+        new Get(
+            uriTemplate: '/cooks/{id}',
+            provider: CookItemProvider::class
         )
     ]
 )]

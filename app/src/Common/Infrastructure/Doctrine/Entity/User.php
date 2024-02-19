@@ -3,6 +3,11 @@
 namespace App\Common\Infrastructure\Doctrine\Entity;
 
 use App\Common\Infrastructure\Doctrine\Repository\UserRepository;
+use App\Cook\Domain\Entity\Cook;
+use App\Common\Domain\Entity\User as DomainUser;
+use App\Meal\Infrastructure\Doctrine\Entity\Meal;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -27,6 +32,14 @@ class User implements PasswordAuthenticatedUserInterface
     private string $password;
     #[ORM\Column(type: 'string', length: 50)]
     private string $username;
+
+    #[ORM\OneToMany(targetEntity: Meal::class, mappedBy: 'cook', orphanRemoval: true)]
+    private Collection $meals;
+
+    public function __construct()
+    {
+        $this->meals = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -119,6 +132,28 @@ class User implements PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+    public function toDomain(string $class = DomainUser::class): DomainUser
+    {
+        return new $class(
+            $this->email,
+            $this->password,
+            $this->username,
+            $this->roles,
+            $this->id
+        );
+    }
+
+    public function toCookDomain(): Cook
+    {
+        return new Cook(
+            $this->email,
+            $this->password,
+            $this->username,
+            $this->roles,
+            $this->id
+        );
+    }
+
     public static function fromDomain(\App\Common\Domain\Entity\User $user): self
     {
         $self = new self();
@@ -129,5 +164,35 @@ class User implements PasswordAuthenticatedUserInterface
         $self->roles = $user->roles;
 
         return $self;
+    }
+
+    /**
+     * @return Collection<int, Meal>
+     */
+    public function getMeals(): Collection
+    {
+        return $this->meals;
+    }
+
+    public function addMeal(Meal $meal): static
+    {
+        if (!$this->meals->contains($meal)) {
+            $this->meals->add($meal);
+            $meal->setCook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMeal(Meal $meal): static
+    {
+        if ($this->meals->removeElement($meal)) {
+            // set the owning side to null (unless already changed)
+            if ($meal->getCook() === $this) {
+                $meal->setCook(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Meal\Infrastructure\Doctrine\Repository;
 
+use App\Common\Infrastructure\Doctrine\Entity\User;
 use App\Meal\Domain\Entity\Meal as DomainMeal;
 use App\Meal\Domain\Repository\MealRepositoryInterface;
 use App\Meal\Infrastructure\Doctrine\Entity\Meal;
@@ -27,6 +28,12 @@ class MealRepository extends ServiceEntityRepository implements MealRepositoryIn
     {
         $dbMeal = Meal::fromDomain($meal);
 
+        $cookRepo = $this->getEntityManager()->getRepository(User::class);
+
+        $cook = $cookRepo->find($meal->cook->id);
+
+        $dbMeal->setCook($cook);
+
         $this->getEntityManager()->persist($dbMeal);
         $this->getEntityManager()->flush();
 
@@ -42,9 +49,12 @@ class MealRepository extends ServiceEntityRepository implements MealRepositoryIn
             // TODO HANDLE EXCEPTION BETTER
         }
 
+        $cook = $meal->getCook()->toCookDomain();
+
         return new DomainMeal(
             $meal->getName(),
             $meal->getPrice(),
+            $cook,
             $meal->getId()
         );
     }

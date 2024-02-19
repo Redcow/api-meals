@@ -29,4 +29,9 @@ class CookRepositoryFactory implements CookRepositoryInterface
     {
         return $this->repository->persist($user);
     }
+
+    public function getOne(int $id): Cook
+    {
+        return $this->repository->getOne($id);
+    }
 }

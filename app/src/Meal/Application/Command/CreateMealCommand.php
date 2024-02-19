@@ -14,6 +14,7 @@ final readonly class CreateMealCommand implements CommandInterface
 {
     public function __construct(
         public string $name,
-        public int $price
+        public int $price,
+        public int $makerId
     ){}
 }

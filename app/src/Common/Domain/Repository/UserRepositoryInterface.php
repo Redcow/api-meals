@@ -14,4 +14,9 @@ interface UserRepositoryInterface
      * @return T
      */
     public function persist($user);
+
+    /**
+     * @return T
+     */
+    public function getOne(int $id);
 }

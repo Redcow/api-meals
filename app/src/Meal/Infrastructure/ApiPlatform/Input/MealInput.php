@@ -16,6 +16,10 @@ readonly class MealInput
 
         #[Assert\NotNull]
         #[Assert\Positive]
-        public int $price
+        public int $price,
+
+        #[Assert\NotNull]
+        #[Assert\Positive]
+        public int $makerId
     ) {}
 }

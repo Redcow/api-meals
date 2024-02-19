@@ -15,4 +15,6 @@ interface CookRepositoryInterface extends UserRepositoryInterface
      * @return Cook
      */
     public function persist($user): Cook;
+
+    public function getOne(int $id): Cook;
 }

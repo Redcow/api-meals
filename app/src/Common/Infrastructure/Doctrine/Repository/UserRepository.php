@@ -67,4 +67,15 @@ class UserRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
+    public function getOne(int $id): DomainUser
+    {
+        $user = $this->find($id);
+
+        if ( $user === null) {
+            throw new \Exception("NOT FOUND");
+            // TODO HANDLE EXCEPTION BETTER
+        }
+
+        return $user->toDomain();
+    }
 }
