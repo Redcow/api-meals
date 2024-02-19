@@ -25,3 +25,6 @@ services:
 
     App\Meal\Domain\Repository\MealRepositoryInterface:
         factory: '@App\Meal\Infrastructure\Doctrine\Repository\MealRepositoryFactory'
+
+    App\Cook\Domain\Repository\CookRepositoryInterface:
+        factory: '@App\Cook\Infrastructure\Doctrine\Repository\CookRepositoryFactory'

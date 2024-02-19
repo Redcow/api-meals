@@ -15,9 +15,9 @@ class Meal
     public function with(...$properties): self
     {
         return new self(
-            $properties['name'] ?? $this->name,
-            $properties['price'] ?? $this->price,
-            $properties['id'] ?? $this->id
+            name: $properties['name'] ?? $this->name,
+            price: $properties['price'] ?? $this->price,
+            id: $properties['id'] ?? $this->id
         );
     }
 }

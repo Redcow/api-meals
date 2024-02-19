@@ -2,7 +2,10 @@ api_platform:
     title: Happy meals
     version: 1.0.0
     mapping:
-        paths: ['%kernel.project_dir%/src/Meal/Infrastructure/ApiPlatform/Resource/']
+        paths: [
+            '%kernel.project_dir%/src/Meal/Infrastructure/ApiPlatform/Resource/',
+            '%kernel.project_dir%/src/Cook/Infrastructure/ApiPlatform/Resource/'
+        ]
     formats:
         jsonld: ['application/ld+json']
     docs_formats:
