@@ -6,7 +6,6 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
-use App\Infrastructure\Meal\State\MealProcessor;
 use App\Meal\Domain\Entity\Meal;
 use App\Meal\Infrastructure\ApiPlatform\Input\MealInput;
 use App\Meal\Infrastructure\ApiPlatform\Processor\CreateMealProcessor;
@@ -14,24 +13,25 @@ use App\Meal\Infrastructure\ApiPlatform\Processor\DeleteMealProcessor;
 use App\Meal\Infrastructure\ApiPlatform\Provider\MealItemProvider;
 
 #[ApiResource(
+    shortName: 'Meal',
     operations: [
         new Get(
-            uriTemplate: '/meals/{id}',
+            uriTemplate: '/{id}',
             requirements: ['id' => '\d+'],
             provider: MealItemProvider::class
         ),
         new Post(
-            uriTemplate: '/meals/',
+            uriTemplate: '/',
             input: MealInput::class,
             processor: CreateMealProcessor::class
         ),
         new Delete(
-            uriTemplate: '/meals/{id}',
+            uriTemplate: '/{id}',
             requirements: ['id' => '\d+'],
             processor: DeleteMealProcessor::class
         )
     ],
-    routePrefix: '/cook'
+    routePrefix: '/meals'
 )]
 final readonly class MealResource
 {

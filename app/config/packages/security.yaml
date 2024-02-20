@@ -5,18 +5,43 @@ security:
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         #users_in_memory: { memory: null }
-        app_user_provider:
+        app_client_provider:
             entity:
-                class: App\Common\Infrastructure\Doctrine\Entity\User
+                class: App\Order\Infrastructure\Doctrine\Entity\ClientUser
                 property: email
+
+        app_cook_provider:
+            entity:
+                class: App\Meal\Infrastructure\Doctrine\Entity\CookUser
+                property: email
+        # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
-            lazy: true
+        meal:
+            pattern: ^/api/cook
+            stateless: true
+            provider: app_cook_provider
+            json_login:
+                check_path: /api/cooks/auth/login
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            jwt: ~
+        client:
+            pattern: ^/api/order
+            stateless: true
+            provider: app_client_provider
+            json_login:
+                check_path: /api/orders/auth/login
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            jwt: ~
             #provider: users_in_memory
-            provider: app_user_provider
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -27,8 +52,13 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/api/cooks/auth, roles: PUBLIC_ACCESS }
+         - { path: ^/api/cooks/, roles: ROLE_COOK }
+
+         - { path: ^/api/orders/auth, roles: PUBLIC_ACCESS }
+         - { path: ^/api/orders/, roles: IS_FULLY_AUTHENTICATED }
+
+         - { path: ^/api/meals, roles: PUBLIC_ACCESS }
 
 when@test:
     security:

@@ -32,7 +32,7 @@ class Meal
 
     #[ORM\ManyToOne(inversedBy: 'meals')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $cook = null;
+    private ?CookUser $cook = null;
 
     public function __construct() {
         $this->createdAt = new \DateTimeImmutable();
@@ -94,7 +94,7 @@ class Meal
         return $self;
     }
 
-    public function getCook(): ?User
+    public function getCook(): ?CookUser
     {
         return $this->cook;
     }

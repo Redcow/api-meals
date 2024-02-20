@@ -28,6 +28,12 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Meal/Infrastructure/Doctrine/Entity'
                 prefix: 'App\Meal\Infrastructure\Doctrine\Entity'
                 alias: Meal
+            Order:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Order/Infrastructure/Doctrine/Entity'
+                prefix: 'App\Order\Infrastructure\Doctrine\Entity'
+                alias: Order
 
 when@test:
     doctrine:

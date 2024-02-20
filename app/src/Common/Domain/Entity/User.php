@@ -2,6 +2,9 @@
 
 namespace App\Common\Domain\Entity;
 
+/**
+ * @template T
+ */
 readonly class User
 {
     public function __construct(
@@ -12,6 +15,9 @@ readonly class User
         public ?int   $id = null
     ){}
 
+    /**
+     * @return T
+     */
     public function with(...$properties): static
     {
         return new static(
