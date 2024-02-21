@@ -37,14 +37,15 @@ class CookUserRepository extends ServiceEntityRepository
 
     public function persist(DomainCookUser $cook): DomainCookUser
     {
-        $dbUser = CookUser::fromDomain($cook);
-
-        $hashedPassword = $this->hasher->hashPassword(
-            $dbUser,
-            $cook->password
-        );
-
-        $dbUser->setPassword($hashedPassword);
+        if($cook->id === null) {
+            $dbUser = $this->persistNew($cook);
+        } else {
+            $dbUser = $this->persistChanges($cook);
+            if ( $dbUser === null) {
+                throw new \Exception("NOT FOUND");
+                // TODO HANDLE EXCEPTION BETTER
+            }
+        }
 
         $this->getEntityManager()->persist($dbUser);
         $this->getEntityManager()->flush();
@@ -79,5 +80,28 @@ class CookUserRepository extends ServiceEntityRepository
         }
 
         return $cookUser->toDomain();
+    }
+
+    private function persistNew(DomainCookUser $cook): CookUser
+    {
+        $dbUser = CookUser::fromDomain($cook);
+
+        $hashedPassword = $this->hasher->hashPassword(
+            $dbUser,
+            $cook->password
+        );
+
+        $dbUser->setPassword($hashedPassword);
+
+        return $dbUser;
+    }
+
+    private function persistChanges(DomainCookUser $cook): ?CookUser
+    {
+        $dbCook = $this->find($cook->id);
+
+        $dbCook->setUsername($cook->username);
+
+        return $dbCook;
     }
 }

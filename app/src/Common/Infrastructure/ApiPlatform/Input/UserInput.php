@@ -7,19 +7,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UserInput
 {
     public function __construct(
-        #[Assert\NotNull]
-        #[Assert\NotBlank]
-        #[Assert\Email]
-        public string $email,
+        #[Assert\NotNull(groups: ['create'])]
+        #[Assert\Email(groups: ['create'])]
+        public ?string $email = null,
 
-        #[Assert\Length(min: 8, max: 50)]
-        #[Assert\NotNull]
-        #[Assert\NotBlank]
-        public string $password,
+        #[Assert\NotNull(groups: ['create', 'update'])]
+        #[Assert\Length(min: 2, max: 20, groups: ['create', 'update'])]
+        public ?string $username = null,
 
-        #[Assert\NotNull]
-        #[Assert\NotBlank]
-        #[Assert\Length(min: 2, max: 20)]
-        public string $username,
+        #[Assert\Length(min: 8, max: 50, groups: ['create'])]
+        #[Assert\NotNull(groups: ['create'])]
+        public ?string $password = null,
+
+        /*#[Assert\NotNull(groups: ['update'])]
+        public ?int $id = null,*/
     ){}
 }

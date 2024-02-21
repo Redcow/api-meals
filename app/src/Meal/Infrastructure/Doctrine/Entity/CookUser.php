@@ -2,9 +2,11 @@
 
 namespace App\Meal\Infrastructure\Doctrine\Entity;
 
-use App\Common\Infrastructure\Doctrine\Entity\User;
 use App\Meal\Domain\Entity\CookUser as DomainCookUser;
-use App\Repository\Meal\Infrastructure\Doctrine\Entity\CookUserRepository;
+
+use App\Common\Infrastructure\Doctrine\Entity\User;
+use App\Meal\Infrastructure\Doctrine\Repository\CookUserRepository;
+
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;

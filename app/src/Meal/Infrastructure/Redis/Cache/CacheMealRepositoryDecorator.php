@@ -28,9 +28,9 @@ class CacheMealRepositoryDecorator extends MealRepositoryBaseDecorator
             return $this->wrappee->persist($meal);
         }
 
-        return $this->cacheIt(
-            $this->wrappee->persist($meal)
-        );
+        $savedMeal = $this->wrappee->persist($meal);
+
+        return $this->cacheIt($savedMeal);
     }
 
     public function getOne(int $id): Meal
@@ -39,7 +39,7 @@ class CacheMealRepositoryDecorator extends MealRepositoryBaseDecorator
             return $this->wrappee->getOne($id);
         }
 
-        if($json = $this->redis->get("Meal:$id")) {
+        if($json = $this->redis->get("MEAL:$id")) {
 
             $serializer = JsonSerializer::get();
 
@@ -70,7 +70,7 @@ class CacheMealRepositoryDecorator extends MealRepositoryBaseDecorator
     private function cacheIt(Meal $meal): Meal
     {
         $this->redis->set(
-            "Meal:$meal->id",
+            "MEAL:$meal->id",
             json_encode($meal)
         );
 

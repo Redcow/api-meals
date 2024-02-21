@@ -5,9 +5,13 @@ namespace App\Meal\Infrastructure\ApiPlatform\Resource;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
-use App\Common\Infrastructure\ApiPlatform\Input\UserInput;
+use ApiPlatform\Metadata\Put;
+
 use App\Meal\Domain\Entity\CookUser;
+
+use App\Common\Infrastructure\ApiPlatform\Input\UserInput;
 use App\Meal\Infrastructure\ApiPlatform\Processor\CreateCookProcessor;
+use App\Meal\Infrastructure\ApiPlatform\Processor\UpdateCookProcessor;
 use App\Meal\Infrastructure\ApiPlatform\Provider\CookItemProvider;
 
 #[ApiResource(
@@ -15,12 +19,25 @@ use App\Meal\Infrastructure\ApiPlatform\Provider\CookItemProvider;
     operations: [
         new Post(
             uriTemplate: '/auth/signup',
+            validationContext: [
+                'groups' => ['create']
+            ],
             input: UserInput::class,
             processor: CreateCookProcessor::class
         ),
         new Get(
             uriTemplate: '/{id}',
-            provider: CookItemProvider::class
+            provider: CookItemProvider::class,
+        ),
+        new Put(
+            uriTemplate: '/{id}',
+            security: "is_granted('ROLE_COOK') and object.id === user.getId()",
+            validationContext: [
+                'groups' => ['update']
+            ],
+            input: UserInput::class,
+            provider: CookItemProvider::class,
+            processor: UpdateCookProcessor::class
         )
     ],
     routePrefix: '/cooks'

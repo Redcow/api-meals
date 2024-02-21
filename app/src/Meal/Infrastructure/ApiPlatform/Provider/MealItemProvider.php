@@ -9,6 +9,7 @@ use ApiPlatform\State\ProviderInterface;
 use App\Common\Application\Query\QueryBusInterface;
 use App\Meal\Application\Query\FindMealQuery;
 use App\Meal\Infrastructure\ApiPlatform\Resource\MealResource;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @implements ProviderInterface<MealResource>
@@ -16,11 +17,16 @@ use App\Meal\Infrastructure\ApiPlatform\Resource\MealResource;
 readonly class MealItemProvider implements ProviderInterface
 {
     public function __construct(
-        private QueryBusInterface $queryBus
+        private QueryBusInterface $queryBus,
+        private Security $security
     ) {}
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): MealResource
     {
+        $user = $this->security->getUser();
+
+        xdebug_break();
+
         $query = new FindMealQuery($uriVariables['id']);
 
         $meal = $this->queryBus->ask($query);

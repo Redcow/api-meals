@@ -52,7 +52,6 @@ class User implements PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        xdebug_break();
         return (string) $this->email;
     }
 
