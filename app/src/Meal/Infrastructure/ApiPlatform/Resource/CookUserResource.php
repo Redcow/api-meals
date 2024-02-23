@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Meal\Infrastructure\ApiPlatform\Resource;
 
 use ApiPlatform\Metadata\ApiResource;
@@ -19,6 +21,7 @@ use App\Meal\Infrastructure\ApiPlatform\Provider\CookItemProvider;
     operations: [
         new Post(
             uriTemplate: '/auth/signup',
+            security: "is_granted('ROLES_COOK')",
             validationContext: [
                 'groups' => ['create']
             ],
@@ -27,6 +30,7 @@ use App\Meal\Infrastructure\ApiPlatform\Provider\CookItemProvider;
         ),
         new Get(
             uriTemplate: '/{id}',
+            normalizationContext: ['normalization' => 'oui'],
             provider: CookItemProvider::class,
         ),
         new Put(

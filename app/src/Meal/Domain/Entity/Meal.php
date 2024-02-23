@@ -10,6 +10,7 @@ class Meal
         public string   $name,
         public int      $price,
         public CookUser $cook,
+        public int      $quantity = 0,
         public ?int     $id = null
     ){}
 
@@ -19,6 +20,7 @@ class Meal
             name: $properties['name'] ?? $this->name,
             price: $properties['price'] ?? $this->price,
             cook: $properties['maker'] ?? $this->cook,
+            quantity: $properties['quantity'] ?? $this->quantity,
             id: $properties['id'] ?? $this->id
         );
     }

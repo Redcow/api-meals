@@ -10,7 +10,6 @@ readonly class MealInput
 {
     public function __construct(
         #[Assert\NotNull]
-        #[Assert\NotBlank]
         #[Assert\Length(min: 2, max: 20)]
         public string $name,
 

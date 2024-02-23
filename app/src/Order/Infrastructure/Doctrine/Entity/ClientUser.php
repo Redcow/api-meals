@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Order\Infrastructure\Doctrine\Entity;
+declare(strict_types=1);
 
+namespace App\Order\Infrastructure\Doctrine\Entity;
 
 use App\Common\Infrastructure\Doctrine\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,11 +15,6 @@ use \App\Order\Domain\Entity\ClientUser as DomainClientUser;
 #[ORM\Entity(repositoryClass: ClientUserRepository::class)]
 class ClientUser extends User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
     public static function fromDomain(DomainClientUser $client): ClientUser
     {
         $self = new self();
@@ -30,10 +26,5 @@ class ClientUser extends User implements UserInterface, PasswordAuthenticatedUse
         $self->id = $client->id;
 
         return $self;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 }

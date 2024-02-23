@@ -7,7 +7,7 @@ interface QueryBusInterface
     /**
      * @template T
      * @param QueryInterface<T> $query
-     * @return T
+     * @return T|T[]|null
      */
     public function ask(QueryInterface $query): mixed;
 }

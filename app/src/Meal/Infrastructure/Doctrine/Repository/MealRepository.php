@@ -2,6 +2,7 @@
 
 namespace App\Meal\Infrastructure\Doctrine\Repository;
 
+use App\Common\Domain\Entity\Collection;
 use App\Common\Infrastructure\Doctrine\Entity\User;
 use App\Meal\Domain\Entity\Meal as DomainMeal;
 use App\Meal\Domain\Repository\MealRepositoryInterface;
@@ -70,5 +71,16 @@ class MealRepository extends ServiceEntityRepository implements MealRepositoryIn
         }
 
         $this->getEntityManager()->flush();
+    }
+
+    public function getAll(int ...$ids): Collection
+    {
+        $meals = $this->findBy(['id' => $ids]);
+
+        return new Collection(
+            array_map(
+                fn(Meal $meal) => $meal->asDomain(),
+                $meals
+        ));
     }
 }

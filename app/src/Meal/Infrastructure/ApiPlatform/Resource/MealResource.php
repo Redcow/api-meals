@@ -38,15 +38,19 @@ final readonly class MealResource
     public function __construct(
         public string $name,
         public int    $price,
+        public ?CookUserResource $cook = null,
+        public int $quantity = 0,
         public ?int   $id = null
     ) {}
 
     public static function fromDomain(Meal $meal): MealResource
     {
         return new self(
-            $meal->name,
-            $meal->price,
-            $meal->id
+            name: $meal->name,
+            price: $meal->price,
+            cook: CookUserResource::fromDomain($meal->cook),
+            quantity: $meal->quantity,
+            id: $meal->id
         );
     }
 
@@ -55,11 +59,9 @@ final readonly class MealResource
         return new self(
             $properties['name'] ?? $this->name,
             $properties['price'] ?? $this->price,
+            $properties['cook'] ?? $this->cook,
+            $properties['quantity'] ?? $this->quantity,
             $properties['id'] ?? $this->id
         );
-
-        //$meal->setCook($this->getCook());
-
-        //return $meal;
     }
 }

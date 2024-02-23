@@ -4,18 +4,26 @@ declare(strict_types=1);
 
 namespace App\Meal\Infrastructure\Doctrine\Repository;
 
+use App\Common\Application\Cache\AppCacheInterface;
+use App\Common\Domain\Entity\Collection;
 use App\Meal\Domain\Entity\Meal;
 use App\Meal\Domain\Repository\MealRepositoryInterface;
 use App\Meal\Infrastructure\Doctrine\Repository\MealRepository as MealDoctrineRepository;
-use App\Meal\Infrastructure\Redis\Cache\CacheMealRepositoryDecorator;
 
 class MealRepositoryFactory implements MealRepositoryInterface
 {
     private MealRepositoryInterface $repository;
 
-    public function __invoke(MealDoctrineRepository $mealDoctrineRepository): MealRepositoryInterface
+    public function __invoke(
+        MealDoctrineRepository $mealDoctrineRepository,
+        AppCacheInterface $cache
+    ): MealRepositoryInterface
     {
-        $this->repository = new CacheMealRepositoryDecorator($mealDoctrineRepository);
+        $this->repository = new MealRepositoryCacheDecorator(
+            $mealDoctrineRepository,
+            $cache
+        );
+
         return $this;
     }
 
@@ -32,5 +40,10 @@ class MealRepositoryFactory implements MealRepositoryInterface
     public function delete(int ...$ids): void
     {
         $this->repository->delete(...$ids);
+    }
+
+    public function getAll(int ...$ids): Collection
+    {
+        return $this->repository->getAll(...$ids);
     }
 }

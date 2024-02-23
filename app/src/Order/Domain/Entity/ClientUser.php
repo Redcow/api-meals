@@ -4,6 +4,9 @@ namespace App\Order\Domain\Entity;
 
 use App\Common\Domain\Entity\User;
 
+/**
+ * @implements User<ClientUser>
+ */
 final readonly class ClientUser extends User
 {
     public function __construct(

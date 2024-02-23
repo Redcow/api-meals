@@ -6,7 +6,6 @@ use App\Common\Application\Cache\AppCacheInterface;
 use App\Meal\Domain\Entity\CookUser;
 use App\Meal\Domain\Repository\CookUserRepositoryInterface;
 use App\Meal\Infrastructure\Doctrine\Repository\CookUserRepository as UserDoctrineRepository;
-use App\Meal\Infrastructure\Redis\Cache\CacheCookUserRepositoryDecorator;
 
 class CookUserRepositoryFactory implements CookUserRepositoryInterface
 {
@@ -17,7 +16,11 @@ class CookUserRepositoryFactory implements CookUserRepositoryInterface
         AppCacheInterface $cache
     ): CookUserRepositoryInterface
     {
-        $this->repository = new CacheCookUserRepositoryDecorator($userRepository, $cache);
+        $this->repository = new CookUserRepositoryCacheDecorator(
+            $userRepository,
+            $cache
+        );
+
         return $this;
     }
 

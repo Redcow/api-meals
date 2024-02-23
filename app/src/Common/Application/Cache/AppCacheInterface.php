@@ -8,7 +8,7 @@ interface AppCacheInterface
 
     public function remove(string ...$keys): void;
 
-    public function cacheIt(string $key, string $value): void;
+    public function set(string $key, string $value): void;
 
     public function isOff(): bool;
 }

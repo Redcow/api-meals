@@ -79,7 +79,7 @@ class CookUserRepository extends ServiceEntityRepository
             // TODO HANDLE EXCEPTION BETTER
         }
 
-        return $cookUser->toDomain();
+        return $cookUser->asDomain();
     }
 
     private function persistNew(DomainCookUser $cook): CookUser

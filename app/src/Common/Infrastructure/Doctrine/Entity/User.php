@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Common\Infrastructure\Doctrine\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -11,6 +13,11 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[ORM\MappedSuperclass]
 class User implements PasswordAuthenticatedUserInterface
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    protected ?int $id = null;
+
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     protected ?string $email;
 
@@ -22,6 +29,11 @@ class User implements PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 50)]
     protected string $username;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     public function getEmail(): ?string
     {

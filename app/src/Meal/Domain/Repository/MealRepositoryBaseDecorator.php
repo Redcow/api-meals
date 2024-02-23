@@ -2,6 +2,7 @@
 
 namespace App\Meal\Domain\Repository;
 
+use App\Common\Domain\Entity\Collection;
 use App\Meal\Domain\Entity\Meal;
 
 class MealRepositoryBaseDecorator implements MealRepositoryInterface
@@ -26,5 +27,10 @@ class MealRepositoryBaseDecorator implements MealRepositoryInterface
     public function delete(int ...$ids): void
     {
         $this->wrappee->delete(...$ids);
+    }
+
+    public function getAll(int ...$ids): Collection
+    {
+        return $this->wrappee->getAll(...$ids);
     }
 }

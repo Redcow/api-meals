@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Meal\Infrastructure\Redis\Cache;
+declare(strict_types=1);
+
+namespace App\Meal\Infrastructure\Doctrine\Repository;
 
 use App\Common\Application\Cache\AppCacheInterface;
 use App\Common\Infrastructure\Symfony\JsonEncoder\JsonSerializer;
@@ -8,7 +10,7 @@ use App\Meal\Domain\Entity\CookUser;
 use App\Meal\Domain\Repository\CookUserRepositoryBaseDecorator;
 use App\Meal\Domain\Repository\CookUserRepositoryInterface;
 
-final readonly class CacheCookUserRepositoryDecorator
+final readonly class CookUserRepositoryCacheDecorator
     extends CookUserRepositoryBaseDecorator
     implements CookUserRepositoryInterface
 {
@@ -31,12 +33,7 @@ final readonly class CacheCookUserRepositoryDecorator
 
         $cook = $this->wrappee->persist($cook);
 
-        if(!$this->cache->isOff())
-        {
-            $this->cacheIt($cook);
-        }
-
-        return $cook;
+        return $this->cacheIt($cook);
     }
 
     public function getById(int $id): CookUser
@@ -56,16 +53,16 @@ final readonly class CacheCookUserRepositoryDecorator
 
         $cook = $this->wrappee->getById($id);
 
-        $this->cacheIt($cook);
-
-        return $cook;
+        return $this->cacheIt($cook);
     }
 
-    public function cacheIt(CookUser $cook): void
+    public function cacheIt(CookUser $cook): CookUser
     {
-        $this->cache->cacheIt(
+        $this->cache->set(
             "COOK:$cook->id",
             json_encode($cook)
         );
+
+        return $cook;
     }
 }

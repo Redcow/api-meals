@@ -13,6 +13,8 @@ class JsonSerializer
 {
     private SerializerInterface $serializer;
 
+    static private ?JsonSerializer $instance = null;
+
     /**
      * @template T
      * @param string $json
@@ -30,7 +32,10 @@ class JsonSerializer
 
     public static function get(): self
     {
-        return new self();
+        if(self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
     }
 
     private function __construct() {

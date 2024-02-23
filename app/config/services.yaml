@@ -23,8 +23,16 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    App\Common\Application\Cache\AppCacheInterface:
+        factory: ['App\Common\Infrastructure\Redis\Cache\RedisAppCache', 'getInstance']
+
+
     App\Meal\Domain\Repository\MealRepositoryInterface:
         factory: '@App\Meal\Infrastructure\Doctrine\Repository\MealRepositoryFactory'
 
     App\Meal\Domain\Repository\CookUserRepositoryInterface:
         factory: '@App\Meal\Infrastructure\Doctrine\Repository\CookUserRepositoryFactory'
+
+
+    App\Order\Domain\Repository\OrderRepositoryInterface:
+        factory: '@App\Order\Infrastructure\Doctrine\Repository\OrderRepositoryFactory'

@@ -13,7 +13,7 @@ final readonly class CreateClientUserCommandHandler
 {
     public function __construct(
         private ClientUserRepositoryInterface $repository
-    ){}
+    ) {}
 
     public function __invoke(CreateClientUserCommand $command): ClientUser
     {
