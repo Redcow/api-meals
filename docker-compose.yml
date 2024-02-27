@@ -18,7 +18,7 @@ services:
     links:
       - database
       - redis
-      - rabbitmq
+      - mailer
 
   database:
     image: mysql:8
@@ -50,8 +50,11 @@ services:
     image: "redis:alpine"
     ports: [6379]
 
-  rabbitmq:
-    image: rabbitmq:3.7-management
+  mailer:
+    image: schickling/mailcatcher
+    ports:
+      - "1025:1025"
+      - "1080:1080"
 
 volumes:
   db-data:

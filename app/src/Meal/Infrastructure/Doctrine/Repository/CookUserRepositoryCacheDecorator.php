@@ -10,7 +10,7 @@ use App\Meal\Domain\Entity\CookUser;
 use App\Meal\Domain\Repository\CookUserRepositoryBaseDecorator;
 use App\Meal\Domain\Repository\CookUserRepositoryInterface;
 
-final readonly class CookUserRepositoryCacheDecorator
+final class CookUserRepositoryCacheDecorator
     extends CookUserRepositoryBaseDecorator
     implements CookUserRepositoryInterface
 {

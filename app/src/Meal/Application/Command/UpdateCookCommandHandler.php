@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Meal\Application\Command;
 
 use App\Common\Application\Command\CommandHandler;
@@ -7,7 +9,7 @@ use App\Meal\Domain\Entity\CookUser;
 use App\Meal\Domain\Repository\CookUserRepositoryInterface;
 
 #[CommandHandler]
-class UpdateCookCommandHandler
+final readonly class UpdateCookCommandHandler
 {
     public function __construct(
        private CookUserRepositoryInterface $repository
@@ -17,10 +19,9 @@ class UpdateCookCommandHandler
     {
         $cook = $this->repository->getById($command->id);
 
-        xdebug_break();
-
         return $this->repository->persist(
             $cook->with(username: $command->username)
         );
     }
+
 }

@@ -4,7 +4,7 @@ namespace App\Meal\Domain\Repository;
 
 use App\Meal\Domain\Entity\CookUser;
 
-readonly class CookUserRepositoryBaseDecorator implements CookUserRepositoryInterface
+class CookUserRepositoryBaseDecorator implements CookUserRepositoryInterface
 {
     protected CookUserRepositoryInterface $wrappee;
 

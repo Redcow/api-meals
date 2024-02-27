@@ -21,7 +21,6 @@ use App\Meal\Infrastructure\ApiPlatform\Provider\CookItemProvider;
     operations: [
         new Post(
             uriTemplate: '/auth/signup',
-            security: "is_granted('ROLES_COOK')",
             validationContext: [
                 'groups' => ['create']
             ],
@@ -29,12 +28,12 @@ use App\Meal\Infrastructure\ApiPlatform\Provider\CookItemProvider;
             processor: CreateCookProcessor::class
         ),
         new Get(
-            uriTemplate: '/{id}',
+            uriTemplate: '/cooks/{id}',
             normalizationContext: ['normalization' => 'oui'],
             provider: CookItemProvider::class,
         ),
         new Put(
-            uriTemplate: '/{id}',
+            uriTemplate: '/cooks/{id}',
             security: "is_granted('ROLE_COOK') and object.id === user.getId()",
             validationContext: [
                 'groups' => ['update']
@@ -43,8 +42,7 @@ use App\Meal\Infrastructure\ApiPlatform\Provider\CookItemProvider;
             provider: CookItemProvider::class,
             processor: UpdateCookProcessor::class
         )
-    ],
-    routePrefix: '/cooks'
+    ]
 )]
 final readonly class CookUserResource
 {
