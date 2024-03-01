@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace App\Meal\Infrastructure\Doctrine\Repository;
 
-use App\Common\Application\Cache\AppCacheInterface;
+use App\Common\Application\Cache\IAppCache;
 use App\Common\Infrastructure\Symfony\JsonEncoder\JsonSerializer;
 use App\Meal\Domain\Entity\CookUser;
-use App\Meal\Domain\Repository\CookUserRepositoryBaseDecorator;
-use App\Meal\Domain\Repository\CookUserRepositoryInterface;
+use App\Meal\Domain\Repository\ICookUserRepository;
 
 final class CookUserRepositoryCacheDecorator
     extends CookUserRepositoryBaseDecorator
-    implements CookUserRepositoryInterface
+    implements ICookUserRepository
 {
-    private AppCacheInterface $cache;
+    private IAppCache $cache;
 
     public function __construct(
-        CookUserRepositoryInterface $wrappee,
-        AppCacheInterface $cache
+        ICookUserRepository $wrappee,
+        IAppCache $cache
     )
     {
         $this->cache = $cache;

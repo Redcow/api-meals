@@ -2,19 +2,19 @@
 
 namespace App\Meal\Infrastructure\Doctrine\Repository;
 
-use App\Common\Application\Cache\AppCacheInterface;
+use App\Common\Application\Cache\IAppCache;
 use App\Meal\Domain\Entity\CookUser;
-use App\Meal\Domain\Repository\CookUserRepositoryInterface;
+use App\Meal\Domain\Repository\ICookUserRepository;
 use App\Meal\Infrastructure\Doctrine\Repository\CookUserRepository as UserDoctrineRepository;
 
-class CookUserRepositoryFactory implements CookUserRepositoryInterface
+class CookUserRepositoryFactory implements ICookUserRepository
 {
-    private CookUserRepositoryInterface $repository;
+    private ICookUserRepository $repository;
 
     public function __invoke(
         UserDoctrineRepository $userRepository,
-        AppCacheInterface $cache
-    ): CookUserRepositoryInterface
+        IAppCache $cache
+    ): ICookUserRepository
     {
         $this->repository = new CookUserRepositoryCacheDecorator(
             $userRepository,

@@ -2,10 +2,10 @@
 
 namespace App\Common\Infrastructure\Redis\Cache;
 
-use App\Common\Application\Cache\AppCacheInterface;
+use App\Common\Application\Cache\IAppCache;
 use Redis;
 
-final class RedisAppCache implements AppCacheInterface
+final class RedisAppCache implements IAppCache
 {
     protected ?\Redis $redis;
 

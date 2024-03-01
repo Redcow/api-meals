@@ -6,13 +6,13 @@ namespace App\Order\Infrastructure\ApiPlatform\Processor;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use App\Common\Application\Command\CommandBusInterface;
-use App\Common\Application\Query\QueryBusInterface;
+use App\Common\Application\Command\ICommandBus;
+use App\Common\Application\Query\IQueryBus;
 use App\Common\Domain\Entity\Collection;
 use App\Common\Infrastructure\Doctrine\Entity\User;
-use App\Meal\Application\Query\FindMealCollectionQuery;
+use App\Meal\Application\Query\FindMealCollectionIQuery;
 use App\Meal\Domain\Entity\Meal;
-use App\Order\Application\Command\CreateOrderCommand;
+use App\Order\Application\Command\CreateOrderICommand;
 use App\Order\Domain\Entity\ClientUser;
 use App\Order\Infrastructure\ApiPlatform\Input\ArticleInput;
 use App\Order\Infrastructure\ApiPlatform\Input\BasketInput;
@@ -24,9 +24,9 @@ use Symfony\Bundle\SecurityBundle\Security;
 final readonly class CreateOrderProcessor implements ProcessorInterface
 {
     public function __construct(
-        private CommandBusInterface $commandBus,
-        private QueryBusInterface $queryBus,
-        private Security $security
+        private ICommandBus $commandBus,
+        private IQueryBus   $queryBus,
+        private Security    $security
     ){}
 
     /**
@@ -57,7 +57,7 @@ final readonly class CreateOrderProcessor implements ProcessorInterface
      */
     private function queryOrderedMeals(BasketInput $input): Collection
     {
-        $query = new FindMealCollectionQuery(
+        $query = new FindMealCollectionIQuery(
             $input->articles->map(
                 fn (ArticleInput $article) => $article->mealId
             )
@@ -93,7 +93,7 @@ final readonly class CreateOrderProcessor implements ProcessorInterface
             id: $user->getId()
         );
 
-        $command = new CreateOrderCommand(
+        $command = new CreateOrderICommand(
             $input->articles,
             $clientUser
         );

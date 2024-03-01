@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace App\Meal\Infrastructure\Doctrine\Repository;
 
-use App\Common\Application\Cache\AppCacheInterface;
+use App\Common\Application\Cache\IAppCache;
 use App\Common\Domain\Entity\Collection;
 use App\Common\Infrastructure\Symfony\JsonEncoder\JsonSerializer;
 use App\Meal\Domain\Entity\Meal;
-use App\Meal\Domain\Repository\MealRepositoryBaseDecorator;
-use App\Meal\Domain\Repository\MealRepositoryInterface;
+use App\Meal\Domain\Repository\IMealRepository;
 
 class MealRepositoryCacheDecorator
     extends MealRepositoryBaseDecorator
-    implements MealRepositoryInterface
+    implements IMealRepository
 {
-    private readonly AppCacheInterface $cache;
+    private readonly IAppCache $cache;
 
-    public function __construct(MealRepositoryInterface $wrappee, AppCacheInterface $cache)
+    public function __construct(IMealRepository $wrappee, IAppCache $cache)
     {
         $this->cache = $cache;
         parent::__construct($wrappee);

@@ -11,7 +11,7 @@ final readonly class AddArticleCommandHandler
         //private BasketRepositoryInterface $repository
     ){}
 
-    public function __invoke(AddArticleCommand $command): void
+    public function __invoke(AddArticleICommand $command): void
     {
         $user = null;
         //$basket = $this->repository->getUserBasket($user, withArticles: true);

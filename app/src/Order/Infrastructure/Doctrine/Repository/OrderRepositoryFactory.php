@@ -2,20 +2,20 @@
 
 namespace App\Order\Infrastructure\Doctrine\Repository;
 
-use App\Common\Application\Cache\AppCacheInterface;
+use App\Common\Application\Cache\IAppCache;
 use App\Order\Domain\Entity\Order;
-use App\Order\Domain\Repository\OrderRepositoryInterface;
+use App\Order\Domain\Repository\IOrderRepository;
 use App\Order\Infrastructure\Doctrine\Repository\OrderRepository as OrderDoctrineRepository;
 
-class OrderRepositoryFactory implements OrderRepositoryInterface
+class OrderRepositoryFactory implements IOrderRepository
 {
 
-    private OrderRepositoryInterface $repository;
+    private IOrderRepository $repository;
 
     public function __invoke(
         OrderDoctrineRepository $orderDoctrineRepository,
-        AppCacheInterface $cache
-    ): OrderRepositoryInterface
+        IAppCache $cache
+    ): IOrderRepository
     {
         $this->repository = new OrderRepositoryCacheDecorator(
             $orderDoctrineRepository,

@@ -5,7 +5,7 @@ namespace App\Meal\Infrastructure\Doctrine\Repository;
 use App\Common\Domain\Entity\Collection;
 use App\Common\Infrastructure\Doctrine\Entity\User;
 use App\Meal\Domain\Entity\Meal as DomainMeal;
-use App\Meal\Domain\Repository\MealRepositoryInterface;
+use App\Meal\Domain\Repository\IMealRepository;
 use App\Meal\Infrastructure\Doctrine\Entity\Meal;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -18,7 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Meal[]    findAll()
  * @method Meal[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MealRepository extends ServiceEntityRepository implements MealRepositoryInterface
+class MealRepository extends ServiceEntityRepository implements IMealRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

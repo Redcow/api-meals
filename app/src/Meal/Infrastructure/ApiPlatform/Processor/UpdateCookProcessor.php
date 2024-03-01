@@ -4,9 +4,9 @@ namespace App\Meal\Infrastructure\ApiPlatform\Processor;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use App\Common\Application\Command\CommandBusInterface;
+use App\Common\Application\Command\ICommandBus;
 use App\Common\Infrastructure\ApiPlatform\Input\UserInput;
-use App\Meal\Application\Command\UpdateCookCommand;
+use App\Meal\Application\Command\UpdateCookICommand;
 use App\Meal\Infrastructure\ApiPlatform\Resource\CookUserResource;
 
 /**
@@ -15,12 +15,12 @@ use App\Meal\Infrastructure\ApiPlatform\Resource\CookUserResource;
 final readonly class UpdateCookProcessor implements ProcessorInterface
 {
     public function __construct(
-        private CommandBusInterface $commandBus
+        private ICommandBus $commandBus
     ){}
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): CookUserResource
     {
-        $command = new UpdateCookCommand(
+        $command = new UpdateCookICommand(
             +$uriVariables['id'],
             $data->username
         );

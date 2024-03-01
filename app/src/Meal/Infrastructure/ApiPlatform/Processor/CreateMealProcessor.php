@@ -6,10 +6,10 @@ namespace App\Meal\Infrastructure\ApiPlatform\Processor;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use App\Common\Application\Command\CommandBusInterface;
+use App\Common\Application\Command\ICommandBus;
 //use App\Common\Application\Query\QueryBusInterface;
 //use App\Cook\Application\Query\FindCookQuery;
-use App\Meal\Application\Command\CreateMealCommand;
+use App\Meal\Application\Command\CreateMealICommand;
 use App\Meal\Infrastructure\ApiPlatform\Input\MealInput;
 use App\Meal\Infrastructure\ApiPlatform\Resource\MealResource;
 
@@ -20,7 +20,7 @@ final readonly class CreateMealProcessor implements ProcessorInterface
 {
     public function __construct(
         //private QueryBusInterface $queryBus,
-        private CommandBusInterface $commandBus
+        private ICommandBus $commandBus
     ) {}
 
     /**
@@ -35,7 +35,7 @@ final readonly class CreateMealProcessor implements ProcessorInterface
         /*$query = new FindCookQuery($data->makerId);
         $cook = $this->queryBus->ask($query);*/
 
-        $command = new CreateMealCommand(
+        $command = new CreateMealICommand(
             $data->name,
             $data->price,
             $data->makerId

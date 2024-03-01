@@ -6,16 +6,16 @@ namespace App\Order\Application\Command;
 
 use App\Common\Application\Command\CommandHandler;
 use App\Order\Domain\Entity\ClientUser;
-use App\Order\Domain\Repository\ClientUserRepositoryInterface;
+use App\Order\Domain\Repository\IClientUserRepository;
 
 #[CommandHandler]
 final readonly class CreateClientUserCommandHandler
 {
     public function __construct(
-        private ClientUserRepositoryInterface $repository
+        private IClientUserRepository $repository
     ) {}
 
-    public function __invoke(CreateClientUserCommand $command): ClientUser
+    public function __invoke(CreateClientUserICommand $command): ClientUser
     {
         $clientUser = new ClientUser(
             email: $command->email,

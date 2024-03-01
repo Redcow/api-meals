@@ -3,7 +3,7 @@
 namespace App\Meal\Infrastructure\Doctrine\Repository;
 
 use App\Meal\Domain\Entity\CookUser as DomainCookUser;
-use App\Meal\Domain\Repository\CookUserRepositoryInterface;
+use App\Meal\Domain\Repository\ICookUserRepository;
 use App\Meal\Infrastructure\Doctrine\Entity\CookUser;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  * @method CookUser[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class CookUserRepository extends ServiceEntityRepository
-    implements PasswordUpgraderInterface, CookUserRepositoryInterface
+    implements PasswordUpgraderInterface, ICookUserRepository
 {
     private readonly UserPasswordHasherInterface $hasher;
 

@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
-use App\Order\Domain\Repository\ClientUserRepositoryInterface;
+use App\Order\Domain\Repository\IClientUserRepository;
 use \App\Order\Domain\Entity\ClientUser as DomainClientUser;
 use App\Order\Infrastructure\Doctrine\Entity\ClientUser;
 
@@ -26,7 +26,7 @@ use App\Order\Infrastructure\Doctrine\Entity\ClientUser;
  * @method ClientUser[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class ClientUserRepository extends ServiceEntityRepository
-    implements PasswordUpgraderInterface, ClientUserRepositoryInterface
+    implements PasswordUpgraderInterface, IClientUserRepository
 {
     private readonly UserPasswordHasherInterface $hasher;
 

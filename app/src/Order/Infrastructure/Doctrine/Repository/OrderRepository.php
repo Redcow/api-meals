@@ -12,7 +12,7 @@ use App\Order\Infrastructure\Doctrine\Entity\Order;
 
 use App\Order\Domain\Entity\Order as DomainOrder;
 use App\Order\Domain\Entity\Article as DomainArticle;
-use App\Order\Domain\Repository\OrderRepositoryInterface;
+use App\Order\Domain\Repository\IOrderRepository;
 
 
 /**
@@ -23,7 +23,7 @@ use App\Order\Domain\Repository\OrderRepositoryInterface;
  * @method Order[]    findAll()
  * @method Order[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class OrderRepository extends ServiceEntityRepository implements OrderRepositoryInterface
+class OrderRepository extends ServiceEntityRepository implements IOrderRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

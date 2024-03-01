@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Common\Domain\Entity;
+
+use App\Common\Domain\ValueObject\UserStatus;
 
 /**
  * @template T
@@ -12,8 +16,15 @@ readonly class User
         public string $password,
         public string $username,
         public array  $roles = [],
+        public UserStatus $status = UserStatus::OFF,
+        public ?string $token = null,
         public ?int   $id = null
     ){}
+
+    public function createToken(): string
+    {
+        return bin2hex(random_bytes(60));
+    }
 
     /**
      * @return T
@@ -28,4 +39,6 @@ readonly class User
             id: $properties['id'] ?? $this->id
         );
     }
+
+
 }

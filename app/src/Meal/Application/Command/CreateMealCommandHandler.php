@@ -6,18 +6,18 @@ namespace App\Meal\Application\Command;
 
 use App\Common\Application\Command\CommandHandler;
 use App\Meal\Domain\Entity\Meal;
-use App\Meal\Domain\Repository\CookUserRepositoryInterface;
-use App\Meal\Domain\Repository\MealRepositoryInterface;
+use App\Meal\Domain\Repository\ICookUserRepository;
+use App\Meal\Domain\Repository\IMealRepository;
 
 #[CommandHandler]
 final readonly class CreateMealCommandHandler
 {
     public function __construct(
-        private MealRepositoryInterface $repository,
-        private CookUserRepositoryInterface $cookRepository
+        private IMealRepository     $repository,
+        private ICookUserRepository $cookRepository
     ) {}
 
-    public function __invoke(CreateMealCommand $command): Meal
+    public function __invoke(CreateMealICommand $command): Meal
     {
         $cook = $this->cookRepository->getById($command->makerId);
 

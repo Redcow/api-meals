@@ -6,9 +6,9 @@ namespace App\Order\Infrastructure\ApiPlatform\Processor;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use App\Common\Application\Command\CommandBusInterface;
+use App\Common\Application\Command\ICommandBus;
 use App\Common\Infrastructure\ApiPlatform\Input\UserInput;
-use App\Order\Application\Command\CreateClientUserCommand;
+use App\Order\Application\Command\CreateClientUserICommand;
 use App\Order\Domain\Entity\ClientUser;
 use App\Order\Infrastructure\ApiPlatform\Resource\ClientUserResource;
 
@@ -18,7 +18,7 @@ use App\Order\Infrastructure\ApiPlatform\Resource\ClientUserResource;
 final readonly class CreateClientUserProcessor implements ProcessorInterface
 {
     public function __construct(
-        private CommandBusInterface $commandBus
+        private ICommandBus $commandBus
     ){}
 
     /**
@@ -30,7 +30,7 @@ final readonly class CreateClientUserProcessor implements ProcessorInterface
      */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): ClientUserResource
     {
-        $command = new CreateClientUserCommand(
+        $command = new CreateClientUserICommand(
             $data->email,
             $data->password,
             $data->username

@@ -4,8 +4,8 @@ namespace App\Order\Infrastructure\ApiPlatform\Processor;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use App\Common\Application\Command\CommandBusInterface;
-use App\Order\Application\Command\AddArticleCommand;
+use App\Common\Application\Command\ICommandBus;
+use App\Order\Application\Command\AddArticleICommand;
 use App\Order\Infrastructure\ApiPlatform\Input\ArticleInput;
 
 /**
@@ -14,11 +14,11 @@ use App\Order\Infrastructure\ApiPlatform\Input\ArticleInput;
 class AddArticleProcessor implements ProcessorInterface
 {
     public function __construct(
-        private CommandBusInterface $commandBus
+        private ICommandBus $commandBus
     ) {}
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
     {
-        $command = new AddArticleCommand();
+        $command = new AddArticleICommand();
 
         $this->commandBus->dispatch($command);
     }

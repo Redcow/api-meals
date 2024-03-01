@@ -18,8 +18,8 @@ framework:
             # sync: 'sync://'
 
         routing:
-            'App\Common\Application\Query\QueryInterface': sync
-            'App\Common\Application\Command\CommandInterface': sync
+            'App\Common\Application\Query\IQuery': sync
+            'App\Common\Application\Command\ICommand': sync
             # Route your messages to the transports
             # 'App\Message\YourMessage': async
 
