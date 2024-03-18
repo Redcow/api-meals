@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Meal\Domain\Event;
+namespace App\Meal\Application\Event;
 
 use App\Common\Domain\Service\IMailerService;
-use App\Meal\Domain\Service\MealMailMakerInterface;
+use App\Meal\Application\Service\IMealMailMaker;
 
 final readonly class CookHasBeenCreatedHandler
 {
     public function __construct(
-        private MealMailMakerInterface $mailMaker,
+        private IMealMailMaker $mailMaker,
         private IMailerService $mailer
     ){}
 

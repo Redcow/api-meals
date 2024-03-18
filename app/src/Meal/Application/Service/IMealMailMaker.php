@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Meal\Domain\Service;
+namespace App\Meal\Application\Service;
 
 use App\Common\Domain\Service\Email;
 use App\Meal\Domain\Entity\CookUser;
 
-interface MealMailMakerInterface
+interface IMealMailMaker
 {
     public function createAccountConfirmationMail(CookUser $user): Email;
 }

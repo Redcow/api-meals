@@ -26,6 +26,8 @@ services:
     App\Common\Application\Cache\IAppCache:
         factory: ['App\Common\Infrastructure\Redis\Cache\RedisAppCache', 'getInstance']
 
+    App\Meal\Application\Event\CookHasBeenCreatedHandler:
+        tags: ['kernel.event_listener']
 
     App\Meal\Domain\Repository\IMealRepository:
         factory: '@App\Meal\Infrastructure\Doctrine\Repository\MealRepositoryFactory'

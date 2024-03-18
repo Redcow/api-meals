@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Meal\Domain\Event;
+namespace App\Meal\Application\Event;
 
 use App\Common\Domain\Event\Event;
 use App\Meal\Domain\Entity\CookUser;

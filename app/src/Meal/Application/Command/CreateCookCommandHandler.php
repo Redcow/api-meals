@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace App\Meal\Application\Command;
 
 use App\Common\Application\Command\CommandHandler;
-use App\Common\Domain\Service\IMailerService;
+use App\Meal\Application\Event\IMealDispatcher;
 use App\Meal\Domain\Entity\CookUser;
 use App\Meal\Domain\Repository\ICookUserRepository;
-use App\Meal\Domain\Service\MealMailMakerInterface;
 
 #[CommandHandler]
 final readonly class CreateCookCommandHandler
 {
     public function __construct(
-        private ICookUserRepository    $repository,
-        private IMailerService         $mailer,
-        private MealMailMakerInterface $mailMaker
-    ){}
+        private ICookUserRepository $repository,
+        private IMealDispatcher     $dispatcher,
+    )
+    {
+    }
 
     public function __invoke(CreateCookICommand $command): CookUser
     {
@@ -30,15 +30,8 @@ final readonly class CreateCookCommandHandler
 
         $persistedCook = $this->repository->persist($cook);
 
-        $this->sendConfirmationEmailTo($persistedCook); // TODO, dévier ca vers event ou command ?
+        $this->dispatcher->dispatchCookHasBeenCreated($cook);
 
         return $persistedCook;
-    }
-
-    private function sendConfirmationEmailTo(CookUser $cook): void
-    {
-        $email = $this->mailMaker->createAccountConfirmationMail($cook);
-
-        $this->mailer->send($email);
     }
 }

@@ -9,10 +9,10 @@ use Symfony\Component\Mime\Email;
 
 use App\Common\Domain\Service\Email as DomainMail;
 
-class SymfonyIMailer implements IMailerService
+readonly class SymfonyIMailer implements IMailerService
 {
     public function __construct(
-        private readonly MailerInterface $mailer
+        private MailerInterface $mailer
     ){}
 
     public function send(DomainMail $email): void
@@ -27,7 +27,6 @@ class SymfonyIMailer implements IMailerService
 
     private static function transform(DomainMail $mail): Email
     {
-        dump('transform');
         return (new Email())
             ->from($mail->from)
             ->to(...$mail->to)

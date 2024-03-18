@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Meal\Domain\Entity;
 
-class Meal
+readonly class Meal
 {
     public function __construct(
         public string   $name,
